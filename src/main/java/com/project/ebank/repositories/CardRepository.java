@@ -1,5 +1,6 @@
 package com.project.ebank.repositories;
 
+import com.project.ebank.entities.Card;
 import com.project.ebank.entities.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -7,9 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface CustomerRepository extends JpaRepository<Customer,Long> {
+public interface CardRepository extends JpaRepository<Card,String> {
 
-//    List<Customer> findByNameContains(String keyword);
-    @Query("select c from Customer c where c.name like :kw")
-List<Customer> searchCustomers( @Param(value="kw") String keyword);
+    List<Card> findByBankAccountId(String id);
 }
