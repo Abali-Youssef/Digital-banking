@@ -15,9 +15,11 @@ import java.util.List;
 public abstract class BankAccount {
     @Id
     private String id;
+    @Column(nullable = false)
     private double balance;
+    @Column(nullable = false)
     private Date createdAt;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) @Column(nullable = false)
     private AccountStatus status;
     @ManyToOne
     private Customer customer;

@@ -1,15 +1,12 @@
-package com.project.ebank.dtos;
+package com.project.ebank.dtos.response;
 
 
-import com.project.ebank.enums.AccountStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data @AllArgsConstructor @NoArgsConstructor
-public class SavingAccountDTO extends BankAccountDTO {
+public class SavingAccountResponseDTO extends BankAccountResponseDTO {
 
     private double interestRate;
 

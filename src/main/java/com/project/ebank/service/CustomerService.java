@@ -1,17 +1,22 @@
 package com.project.ebank.service;
 
-import com.project.ebank.dtos.CustomerDTO;
+import com.project.ebank.dtos.request.CustomerRequestDTO;
+import com.project.ebank.dtos.response.CustomerResponseDTO;
+import com.project.ebank.dtos.response.lists.CustomerResponseDTOList;
+import com.project.ebank.entities.Customer;
 import com.project.ebank.exceptions.CustomerNotFoundException;
 
 import java.util.List;
 
 public interface CustomerService {
-    List<CustomerDTO> listCustomer();
-    CustomerDTO getCustomer(Long customerId) throws CustomerNotFoundException;
+    List<CustomerResponseDTO> getCustomer(String cin) throws CustomerNotFoundException;
 
-    CustomerDTO saveCustomer(CustomerDTO customerDTO);
-    CustomerDTO updateCustomer(CustomerDTO customerDTO);
-    void deleteCustomer(Long costomerId);
-    List<CustomerDTO> searchCustomer(String keyword);
+
+    CustomerResponseDTO saveCustomer(CustomerRequestDTO customerDTO);
+    CustomerResponseDTO updateCustomer(CustomerRequestDTO customerDTO,Long id);
+
+    CustomerResponseDTOList listCustomer(String keyword, int page, int size);
+    Customer loadCustomerByEmail (String email);
+    void deleteCustomer(List<Long> customerIds);
 
 }

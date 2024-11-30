@@ -1,9 +1,6 @@
 package com.project.ebank.entities;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Generated;
@@ -14,7 +11,6 @@ import java.util.List;
 @Data @AllArgsConstructor @NoArgsConstructor
 @DiscriminatorValue("SAV")
 public class SavingAccount extends BankAccount{
+    @Column(nullable = false)
     private double interestRate;
-
-
 }

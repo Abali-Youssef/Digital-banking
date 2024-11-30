@@ -1,10 +1,13 @@
 package com.project.ebank.web;
 
-import com.project.ebank.dtos.CustomerDTO;
+import com.project.ebank.dtos.request.CustomerRequestDTO;
+import com.project.ebank.dtos.response.CustomerResponseDTO;
+import com.project.ebank.dtos.response.lists.CustomerResponseDTOList;
 import com.project.ebank.entities.Customer;
 import com.project.ebank.exceptions.CustomerNotFoundException;
 import com.project.ebank.service.BankAccountService;
 import com.project.ebank.service.CustomerService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,32 +18,28 @@ import java.util.List;
 @AllArgsConstructor
 public class CustomerRestController {
 private CustomerService customerService;
-@GetMapping("/customers")
-public  List<CustomerDTO> customers(){
-    return customerService.listCustomer();
+    //@PreAuthorize("hasAuthority('SCOPE_USER')")
+    @GetMapping("/customers/{cin}")
+    public List<CustomerResponseDTO> getCustomer(@PathVariable(name = "cin") String cin) throws CustomerNotFoundException {
+        return customerService.getCustomer(cin);
     }
-    @GetMapping("/customers/{id}")
-    public CustomerDTO getCustomer(@PathVariable(name = "id") Long customerId) throws CustomerNotFoundException {
-        return customerService.getCustomer(customerId);
+    @GetMapping("/customers")
+    public CustomerResponseDTOList getCustomers(@RequestParam(name = "keyword",defaultValue = "") String keyword, @RequestParam(name = "page",defaultValue = "1") int page, @RequestParam(name = "size",defaultValue = "5") int size){
+        return customerService.listCustomer("%"+keyword+"%",page-1,size);
     }
-    @GetMapping("/customers/search")
-    public List<CustomerDTO> searchCustomer(@RequestParam(name = "keyword",defaultValue = "") String keyword){
-        return customerService.searchCustomer("%"+keyword+"%");
-    }
-    @PostMapping("/customers")
-    public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO) {
-    CustomerDTO savedCustomerDTO = customerService.saveCustomer(customerDTO);
+    @PostMapping("/customers/register")
+    public CustomerResponseDTO saveCustomer(@RequestBody @Valid CustomerRequestDTO customerDTO) {
+    CustomerResponseDTO savedCustomerDTO = customerService.saveCustomer(customerDTO);
     return savedCustomerDTO;
     }
     @PutMapping("/customers/update/{customerId}")
-    public CustomerDTO updateCustomer(@PathVariable Long customerId, @RequestBody CustomerDTO customerDTO) {
-    customerDTO.setId(customerId);
-    CustomerDTO updatedCustomerDTO = customerService.saveCustomer(customerDTO);
+    public CustomerResponseDTO updateCustomer(@PathVariable Long customerId, @RequestBody @Valid CustomerRequestDTO customerDTO) {
+    CustomerResponseDTO updatedCustomerDTO = customerService.updateCustomer(customerDTO,customerId);
         return updatedCustomerDTO;
     }
-    @DeleteMapping("/customers/delete/{customerId}")
-    public void deleteCustomer(@PathVariable Long customerId){
-        customerService.deleteCustomer(customerId);
+    @DeleteMapping("/customers/delete")
+    public void deleteCustomer(@RequestBody List<Long> customerIds){
+        customerService.deleteCustomer(customerIds);
     }
 }
 

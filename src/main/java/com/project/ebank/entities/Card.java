@@ -17,6 +17,7 @@ import java.util.Date;
 public class Card {
     @Id
     private String id;
+    @Column(nullable = false,unique = false)
     private Date expirationDate;
     @Enumerated(EnumType.STRING)
     private CardType type;

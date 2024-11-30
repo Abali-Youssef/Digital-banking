@@ -1,6 +1,5 @@
-package com.project.ebank.dtos;
+package com.project.ebank.dtos.response;
 
-import com.project.ebank.entities.BankAccount;
 import com.project.ebank.enums.CardType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,9 +12,11 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 @Builder
-public class CardDTO {
+public class CardResponseDTO {
     private String id;
     private Date expirationDate;
     private CardType type;
+    private String accountId;
+
 }
 

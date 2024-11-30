@@ -13,11 +13,15 @@ public class BankAccountOperation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private Date operationDate;
+    @Column(nullable = false)
     private double amount;
+    @Column(nullable = true)
     private String description;
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private OperationType operationType;
-@ManyToOne
+    @ManyToOne
     private BankAccount bankAccount;
 }

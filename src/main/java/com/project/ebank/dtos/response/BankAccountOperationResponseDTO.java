@@ -1,8 +1,6 @@
-package com.project.ebank.dtos;
+package com.project.ebank.dtos.response;
 
-import com.project.ebank.entities.BankAccount;
 import com.project.ebank.enums.OperationType;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data @AllArgsConstructor @NoArgsConstructor
-public class BankAccountOperationDTO {
+public class BankAccountOperationResponseDTO {
     private Long id;
     private Date operationDate;
     private double amount;

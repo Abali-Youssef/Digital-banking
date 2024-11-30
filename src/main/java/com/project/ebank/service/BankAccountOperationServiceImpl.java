@@ -1,7 +1,8 @@
 package com.project.ebank.service;
 
-import com.project.ebank.dtos.AccountHistoryDTO;
-import com.project.ebank.dtos.BankAccountOperationDTO;
+
+import com.project.ebank.dtos.response.AccountHistoryDTO;
+import com.project.ebank.dtos.response.BankAccountOperationResponseDTO;
 import com.project.ebank.entities.BankAccount;
 import com.project.ebank.entities.BankAccountOperation;
 import com.project.ebank.enums.OperationType;
@@ -31,31 +32,32 @@ public class BankAccountOperationServiceImpl implements BankAccountOperationServ
 
 
 
-    @Override
-    public List<BankAccountOperationDTO> accountHistory(String accountId){
-        List<BankAccountOperation>  bankAccountOperationList= bankAccountOperationRepository.findByBankAccountId(accountId);
-        return bankAccountOperationList.stream().map(bankAccountOperation -> bankAccountOperationMapper.fromBankAccountOperation(bankAccountOperation)).collect(Collectors.toList());
-    }
+//    @Override
+//    public List<BankAccountOperationResponseDTO> accountHistory(String accountId){
+//        List<BankAccountOperation>  bankAccountOperationList= bankAccountOperationRepository.findByBankAccountId(accountId);
+//        return bankAccountOperationList.stream().map(bankAccountOperation -> bankAccountOperationMapper.fromBankAccountOperation(bankAccountOperation)).collect(Collectors.toList());
+//    }
 
     @Override
     public AccountHistoryDTO getAccountHistory(String accountId, int page, int size) throws BankAccountNotFoundException {
-        BankAccount bankAccount = bankAccountRepository.findById(accountId).orElseThrow(()-> new BankAccountNotFoundException("bank account not found"));
+        BankAccount bankAccount = bankAccountRepository.findById(accountId).orElseThrow(()-> new BankAccountNotFoundException("Bank account not found"));
 
         Page<BankAccountOperation> bankAccountOperationList= bankAccountOperationRepository.findByBankAccountId(accountId, PageRequest.of(page,size));
         AccountHistoryDTO accountHistoryDTO=new AccountHistoryDTO();
-        List<BankAccountOperationDTO> bankAccountOperationDTOS=bankAccountOperationList.stream().map(accountHistoryDto -> bankAccountOperationMapper.fromBankAccountOperation(accountHistoryDto)).collect(Collectors.toList());
-        accountHistoryDTO.setBankAccountOperationDTO(bankAccountOperationDTOS);
+        List<BankAccountOperationResponseDTO> bankAccountOperationDTOS=bankAccountOperationList.stream().map(accountHistoryDto -> bankAccountOperationMapper.fromBankAccountOperation(accountHistoryDto)).collect(Collectors.toList());
+        accountHistoryDTO.setBankAccountOperations(bankAccountOperationDTOS);
         accountHistoryDTO.setAccountId(accountId);
         accountHistoryDTO.setAccountType(bankAccount.getClass().getSimpleName());
         accountHistoryDTO.setBalance(bankAccount.getBalance());
-        accountHistoryDTO.setCurrentPage(page);
+        accountHistoryDTO.setCurrentPage(page+1);
         accountHistoryDTO.setPageSize(size);
         accountHistoryDTO.setTotalPage(bankAccountOperationList.getTotalPages());
+        accountHistoryDTO.setTotalElements(bankAccountOperationList.getTotalElements());
         return accountHistoryDTO;
     }
 
     @Override
-    public BankAccountOperationDTO saveOperation(OperationType operationType, double amount, String description, Date operationDate, BankAccount bankAccount) {
+    public BankAccountOperationResponseDTO saveOperation(OperationType operationType, double amount, String description, Date operationDate, BankAccount bankAccount) {
         BankAccountOperation bankAccountOperation=new BankAccountOperation();
         bankAccountOperation.setOperationType(operationType);
         bankAccountOperation.setAmount(amount);
@@ -80,7 +82,7 @@ public class BankAccountOperationServiceImpl implements BankAccountOperationServ
     }
 
     @Override
-    public BankAccountOperationDTO getBankAccountOperation(Long id) {
-        return bankAccountOperationMapper.fromBankAccountOperation(bankAccountOperationRepository.findById(id).orElseThrow());
+    public BankAccountOperationResponseDTO getBankAccountOperation(Long id) {
+        return bankAccountOperationMapper.fromBankAccountOperation(bankAccountOperationRepository.findById(id).orElseThrow(() -> new BankAccountOperationNotFound("operation with id= " + id + " not found")));
     }
 }
