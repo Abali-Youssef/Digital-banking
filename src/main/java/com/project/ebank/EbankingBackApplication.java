@@ -44,7 +44,7 @@ public class EbankingBackApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-@Bean
+//@Bean
 	CommandLineRunner start(PermissionRepository permissionRepository, SecurityService securityService, BankAccountService bankAccountService, CustomerService customerService, CardService cardService){
 		return args -> {
 			Stream.of("EDIT_","ADD_","DELETE_","VIEW_").forEach(prm ->{
@@ -59,11 +59,11 @@ public class EbankingBackApplication {
 				securityService.addPermissionToRole(p.getName(), "user");
 
 			});
-			Stream.of("ADD_","VIEW_").forEach(prm ->{
-				Stream.of("OPERATION").forEach(module ->{
-					securityService.removePermissionFromRole(prm+module,"user");
-				});
-			});
+//			Stream.of("ADD_","VIEW_").forEach(prm ->{
+//				Stream.of("OPERATION").forEach(module ->{
+//					securityService.removePermissionFromRole(prm+module,"user");
+//				});
+//			});
 			Stream.of("hannae","youssef","houda").forEach(name ->{
 				CustomerRequestDTO customer=new CustomerRequestDTO();
 				customer.setName(name);

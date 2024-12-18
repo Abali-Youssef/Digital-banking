@@ -36,9 +36,14 @@ import java.util.stream.Collectors;
 @Slf4j
 public class BankAccountServiceImpl implements BankAccountService{
 
-
     CustomerRepository customerRepository;
     BankAccountRepository bankAccountRepository;
+
+    public BankAccountServiceImpl(BankAccountRepository bankAccountRepository, BankAccountOperationService bankAccountOperationService) {
+        this.bankAccountRepository = bankAccountRepository;
+        this.bankAccountOperationService = bankAccountOperationService;
+    }
+
     CardRepository cardRepository;
     BankAccountOperationService bankAccountOperationService;
     CurrentBankAccountMapper currentBankAccountMapper;
