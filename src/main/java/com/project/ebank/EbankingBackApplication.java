@@ -18,6 +18,7 @@ import com.project.ebank.service.BankAccountService;
 import com.project.ebank.service.CardService;
 import com.project.ebank.service.CustomerService;
 import com.project.ebank.service.SecurityService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -34,6 +35,7 @@ import java.util.stream.Stream;
 
 @SpringBootApplication
 @EnableConfigurationProperties(RsakeysConfig.class)
+@Slf4j
 public class EbankingBackApplication {
 
 	public static void main(String[] args) {
@@ -44,9 +46,14 @@ public class EbankingBackApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-//@Bean
+@Bean
 	CommandLineRunner start(PermissionRepository permissionRepository, SecurityService securityService, BankAccountService bankAccountService, CustomerService customerService, CardService cardService){
 		return args -> {
+			log.info("==============================================================================================" );
+			log.info("Database URL: " + (System.getenv("DB_URL")!=null ? System.getenv("DB_URL"): "jdbc:mysql://localhost:3306/E-BANK"));
+			log.info("Connected user's name: " + (System.getenv("DB_USERNAME")!=null ? System.getenv("DB_USERNAME"): "root"));
+			log.info("==============================================================================================" );
+
 			Stream.of("EDIT_","ADD_","DELETE_","VIEW_").forEach(prm ->{
 				Stream.of("ACCOUNT","CARD","CUSTOMER","ROLE","OPERATION").forEach(module ->{
 					securityService.addPermission(prm+module);

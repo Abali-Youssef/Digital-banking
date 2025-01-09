@@ -10,6 +10,6 @@ import org.springframework.stereotype.Service;
 
 @Mapper(componentModel = "spring")
 public interface CurrentBankAccountMapper {
-    CurrentAccount fromCurrentAccountDTO(CurrentAccountRequestDTO currentAccountRequestDTO);
+    BankAccount fromCurrentAccountDTO(CurrentAccountRequestDTO currentAccountRequestDTO);
     CurrentAccountResponseDTO fromBankAccount(CurrentAccount bankAccount);
 }

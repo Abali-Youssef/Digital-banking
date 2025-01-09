@@ -12,6 +12,6 @@ import org.springframework.stereotype.Service;
 
 @Mapper(componentModel = "spring")
 public interface SavingBankAccountMapper {
-    SavingAccount fromSavingAccountDTO(SavingAccountRequestDTO savingAccountRequestDTO);
+    BankAccount fromSavingAccountDTO(SavingAccountRequestDTO savingAccountRequestDTO);
     SavingAccountResponseDTO fromBankAccount(SavingAccount savingAccount);
 }

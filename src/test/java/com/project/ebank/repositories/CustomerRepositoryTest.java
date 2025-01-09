@@ -1,6 +1,7 @@
 package com.project.ebank.repositories;
 
 import com.project.ebank.entities.Customer;
+import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -10,7 +11,7 @@ import java.util.List;
 @DataJpaTest
 public class CustomerRepositoryTest {
     @Autowired
-    CustomerRepository customerRepository;
+   CustomerRepository customerRepository;
     @BeforeEach
     void  beforeStart(){
         Customer customer=Customer.builder()

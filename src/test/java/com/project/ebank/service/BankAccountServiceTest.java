@@ -42,7 +42,9 @@ public class BankAccountServiceTest {
     BankAccountRepository bankAccountRepository;
     @BeforeEach
     void setUp() {
-        underTest=new BankAccountServiceImpl(bankAccountRepository,bankAccountOperationService);
+        underTest=new BankAccountServiceImpl();
+        underTest.setBankAccountOperationService(bankAccountOperationService);
+        underTest.setBankAccountRepository(bankAccountRepository);
     }
 
     @AfterEach

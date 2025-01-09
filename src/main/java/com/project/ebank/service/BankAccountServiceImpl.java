@@ -19,6 +19,8 @@ import com.project.ebank.repositories.BankAccountRepository;
 import com.project.ebank.repositories.CardRepository;
 import com.project.ebank.repositories.CustomerRepository;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,22 +36,17 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 @Slf4j
+@Data
 public class BankAccountServiceImpl implements BankAccountService{
 
-    CustomerRepository customerRepository;
-    BankAccountRepository bankAccountRepository;
-
-    public BankAccountServiceImpl(BankAccountRepository bankAccountRepository, BankAccountOperationService bankAccountOperationService) {
-        this.bankAccountRepository = bankAccountRepository;
-        this.bankAccountOperationService = bankAccountOperationService;
-    }
-
-    CardRepository cardRepository;
-    BankAccountOperationService bankAccountOperationService;
-    CurrentBankAccountMapper currentBankAccountMapper;
-    SavingBankAccountMapper savingBankAccountMapper;
-    CustomerMapper customerMapper;
-    CardMapper cardMapper;
+    private CustomerRepository customerRepository;
+    private BankAccountRepository bankAccountRepository;
+    private CardRepository cardRepository;
+    private BankAccountOperationService bankAccountOperationService;
+    private CurrentBankAccountMapper currentBankAccountMapper;
+    private SavingBankAccountMapper savingBankAccountMapper;
+    private CustomerMapper customerMapper;
+    private CardMapper cardMapper;
     @Override
     public CurrentAccountResponseDTO saveCurrentBankAccount(double initialBalance, double overDraft, Long customerID) throws CustomerNotFoundException {
         Customer customer = customerRepository.findById(customerID).orElse(null);
